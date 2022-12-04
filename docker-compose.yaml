@@ -1,0 +1,15 @@
+version: '3.0'
+
+services:
+  flight-drone-manager:
+    container_name: flight-drone-manager
+    build: .
+    ports:
+      - 3005:3000
+    depends_on:
+      - redis
+  redis:
+    image: artifactory.rafael.co.il:6001/redis
+    command: redis-server --requirepass tsgspassword
+    ports:
+      - 6379:6379

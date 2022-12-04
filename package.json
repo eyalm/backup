@@ -1,0 +1,112 @@
+{
+  "name": "flight-drone-manager",
+  "version": "0.0.63",
+  "description": "Providing drone data and related partitions",
+  "author": "",
+  "private": true,
+  "license": "SEE LICENSE IN RAFAEL",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "[ ! -z \"$KUBERNETES_SERVICE_HOST\" ] && npm run start:prod || npm run start:dev-local",
+    "start:dev": "nest start --watch",
+    "start:dev-local": "node dist/main",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "consul-template -log-level=DEBUG -template=\"/app/config/config.tpl:/app/config/config.yaml\" -once && NODE_ENV=production node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch --detectOpenHandles",
+    "test:cov": "jest --coverage",
+    "test:junit": "jest --all --reporters=default --reporters=jest-junit",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --watch --detectOpenHandles --config ./test/jest-e2e.json",
+    "test:full": "jest --coverage --all --reporters=default --reporters=jest-junit",
+    "docker:build": "docker build . -t artifactory.rnd-hub.com:5011/services/$npm_package_name:$npm_package_version",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "testTimeout": 60000
+  },
+  "jest-junit": {
+    "outputName": "test-report.xml"
+  },
+  "dependencies": {
+    "@liaoliaots/nestjs-redis": "^8.0.0",
+    "@nestjs/axios": "^0.0.7",
+    "@nestjs/common": "^8.4.7",
+    "@nestjs/config": "^2.2.0",
+    "@nestjs/core": "^8.4.7",
+    "@nestjs/mapped-types": "^1.1.0",
+    "@nestjs/platform-express": "^8.4.7",
+    "@nestjs/swagger": "^5.2.1",
+    "@nestjs/terminus": "^8.1.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "ioredis": "^5.2.3",
+    "jest": "^28.1.3",
+    "js-yaml": "^4.1.0",
+    "kafkajs": "^2.2.0",
+    "path": "^0.12.7",
+    "prom-client": "^14.1.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.5.6",
+    "swagger-ui-express": "^4.5.0",
+    "tsgs-flight-transformations": "^1.0.10",
+    "tsgs-kafka-module": "^0.0.4",
+    "tsgs-logger": "^0.0.14",
+    "tsgs-metrics": "^1.0.8",
+    "tsgs-stanag-types": "^2.0.2",
+    "tsgs-tracer": "^1.0.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^8.2.8",
+    "@nestjs/schematics": "^8.0.11",
+    "@nestjs/testing": "^8.4.7",
+    "@types/cache-manager": "^4.0.2",
+    "@types/connect": "^3.4.35",
+    "@types/express": "^4.17.13",
+    "@types/flat": "^5.0.2",
+    "@types/ioredis": "^4.28.10",
+    "@types/jest": "^27.5.2",
+    "@types/js-yaml": "^4.0.5",
+    "@types/lodash": "^4.14.184",
+    "@types/node": "^18.11.9",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-tsgs": "^0.0.11",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "jest-junit": "^13.2.0",
+    "prettier": "^2.7.1",
+    "supertest": "^6.2.4",
+    "ts-jest": "^28.0.8",
+    "ts-loader": "^9.3.1",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^4.8.2",
+    "webpack": "^5.74.0"
+  }
+}

@@ -1,0 +1,13 @@
+port: 3000
+log:
+  level: debug
+kafka:
+  broker: tsgs-saas.wwest.local:9092
+  downlinkTopic: gc-downlink
+  publishTopic: uplink
+  constraintTopic: flight.constraint.cmd.0
+  groupId: pressure
+redis:
+  url: redis://:tsgspassword@flight.tsgs-cicd.wwest.local:30003
+flightInfraManager:
+  baseUrl: http://localhost:3000/api/v1/
